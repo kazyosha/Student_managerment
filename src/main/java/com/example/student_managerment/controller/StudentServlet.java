@@ -139,8 +139,7 @@ public class StudentServlet extends HttpServlet {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
 
-            // lay student theo id
-            Student student = studentModel.findStudentById(id);
+            Student student = studentModel.findById(id);
             if (student == null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 return;
@@ -152,11 +151,9 @@ public class StudentServlet extends HttpServlet {
             String phone = request.getParameter("phone");
             String groupId = request.getParameter("class_id");
             Group group = new Group(Integer.parseInt(groupId), "");
-            Student newStudent = new Student(name, gender, email, phone, group);
-
+            Student newStudent = new Student(id, name, gender, email, phone, group);
 
             studentModel.update(newStudent);
-
             response.sendRedirect("/student");
 
         } catch (SQLException | IOException e) {
@@ -169,7 +166,7 @@ public class StudentServlet extends HttpServlet {
 
             int id = Integer.parseInt(req.getParameter("id"));
 
-            Student student = studentModel.findStudentById(id);
+            Student student = studentModel.findById(id);
             if (student == null) {
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy sinh viên.");
                 return;
@@ -196,7 +193,7 @@ public class StudentServlet extends HttpServlet {
             int classId = Integer.parseInt(req.getParameter("class_id"));
 
             // Kiểm tra sinh viên tồn tại
-            Student student = studentModel.findStudentById(studentId);
+            Student student = studentModel.findById(studentId);
             if (student == null) {
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy sinh viên.");
                 return;
@@ -237,7 +234,8 @@ public class StudentServlet extends HttpServlet {
     public void showAssignSubjectForm(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             int studentId = Integer.parseInt(req.getParameter("id"));
-            Student student = studentModel.findStudentById(studentId);
+
+            Student student = studentModel.findById(studentId);
             if (student == null) {
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 return;

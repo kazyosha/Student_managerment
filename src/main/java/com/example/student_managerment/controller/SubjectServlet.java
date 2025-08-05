@@ -85,6 +85,7 @@ public class SubjectServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
+
     public void showAddSubjectPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/views/subject/add.jsp");

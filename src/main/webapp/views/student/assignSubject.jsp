@@ -10,7 +10,7 @@
 
     <c:forEach var="subject" items="${subjectList}">
         <input type="checkbox" name="subjectIds" value="${subject.id}"/>
-        ${subject.name} <br/>
+        <br> ${subject.name} <br/>
     </c:forEach>
 
     <input type="submit" value="Save Subjects"/>

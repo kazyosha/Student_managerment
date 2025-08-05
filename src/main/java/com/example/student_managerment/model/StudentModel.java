@@ -24,6 +24,7 @@ public class StudentModel extends BaseModel {
                 " ORDER BY c.name ASC";
         PreparedStatement statement = conn.prepareStatement(sql);
         ResultSet rs = statement.executeQuery();
+
         List<Student> list = new ArrayList<>();
 
         while (rs.next()) {
@@ -48,30 +49,6 @@ public class StudentModel extends BaseModel {
         }
         return list;
     }
-
-    public Student findStudentById(int id) throws SQLException {
-        String sql = "SELECT students.*, class.name as class_name FROM students " +
-                "LEFT JOIN class ON students.class_id = class.id WHERE students.id = ?";
-        PreparedStatement preparedStatement = conn.prepareStatement(sql);
-        preparedStatement.setInt(1, id);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        Student s = null;
-        if (resultSet.next()) {
-            int idStudent = resultSet.getInt("id");
-            String name = resultSet.getString("name");
-            int gender = resultSet.getInt("gender");
-            String email = resultSet.getString("email");
-            String phone = resultSet.getString("phone");
-            int classId = resultSet.getInt("class_id");
-            String className = resultSet.getString("class_name");
-
-            Group group = new Group(classId, className);
-            s = new Student(idStudent, name, gender, email, phone);
-            s.setGroups(group);
-        }
-        return s;
-    }
-
 
     public Student findById(int id) throws SQLException {
         String sql = "SELECT students.*, class.name as class_name FROM students " +
@@ -208,6 +185,7 @@ public class StudentModel extends BaseModel {
     }
 
     public List<Subject> getSubjectsByStudentId(int studentId) throws SQLException {
+
         List<Subject> list = new ArrayList<>();
         String sql = "SELECT sub.id, sub.name FROM subject_student ss " +
                 "JOIN subjects sub ON ss.subject_id = sub.id " +
